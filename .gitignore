@@ -1,0 +1,16 @@
+**/.env
+/devscripts
+**/.DS_Store
+**/coverage-report
+**/node_modules
+**/coverage
+.gitconfig
+**/schema_archive
+extra-services.docker-compose.yml 
+.env2
+# VuePress default temp directory
+**/.vuepress/.temp
+# VuePress default cache directory
+**/.vuepress/.cache
+# VuePress default build output directory
+**/.vuepress/dist
