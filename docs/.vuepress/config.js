@@ -3,7 +3,6 @@ import { defaultTheme } from '@vuepress/theme-default'
 import { defineUserConfig } from 'vuepress'
 
 
-
 let nav = [{
     text: 'Home',
     link: '/README.md',

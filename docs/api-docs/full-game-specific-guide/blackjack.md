@@ -7,7 +7,7 @@ This is a list of all possible actions for blackjack
 
 ## Bet
 
-#### Request:
+#### Request `Action`:
 
 ```json:no-line-numbers
 {
@@ -22,6 +22,8 @@ This is a list of all possible actions for blackjack
     }
 }
 ```
+::: tip for details about non blackjack-specific fields see [websocket guide](/api-docs/websocket-guide.md)
+:::
 
 | Field Name | Type | Required | Description|
 |----|---|---|-----|
@@ -29,10 +31,9 @@ This is a list of all possible actions for blackjack
 | `perfecPairsBetAmount` | float | no | This is the bet amount for the perfect pairs side bet|
 | `pokerBetAmount` | float | no | This is the bet amount for the "21+1" side bet|
 
-:::info The bet limits are configured via the engine's CMS. The engine supports having `betAmount` set to 0 if "free play" is a needed feature.
-:::
+If betAmount is set to 0 (or ommitted) this is considered a round of "free play". This is only allowed provided that the bet limits configured via the engine's CMS have a "min bet limit" down to zero. Check out [how to retrieve the bet limits from CMS](/api-docs/http-guide/get-configs.md)
 
-#### Response:
+#### Response `Update`:
 
 ```json:no-line-numbers
 {
@@ -133,7 +134,7 @@ Each **hand**, (whether the dealer's or one of the player's) will have a `cards`
 
 ## Hit
 
-#### Request:
+#### Request `Action`:
 
 ```json:no-line-numbers
 {
@@ -148,7 +149,7 @@ Each **hand**, (whether the dealer's or one of the player's) will have a `cards`
 **Fields:**
 All the above fields are required as presented.
 
-#### Response:
+#### Response `Update`:
 ```json:no-line-numbers
 {
     "eventType": "RoundUpdate",
@@ -220,7 +221,7 @@ All the fields in the response are already described previously. Good to note th
 
 ## Split
 
-#### Request:
+#### Request `Action`:
 
 ```json:no-line-numbers
 {
@@ -232,7 +233,7 @@ All the fields in the response are already described previously. Good to note th
 }
 ```
 
-#### Response:
+#### Response `Update`:
 
 ```json:no-line-numbers
 {
@@ -275,7 +276,7 @@ The `GameUpdate` will show the two new `playerHands`. So from the above you can 
 
 ## Double
 
-#### Request:
+#### Request `Action`:
 
 ```json:no-line-numbers
 {
@@ -288,7 +289,7 @@ The `GameUpdate` will show the two new `playerHands`. So from the above you can 
 ```
 
 
-#### Response:
+#### Response `Update`:
 ```json:no-line-numbers
 {
     "eventType": "RoundUpdate",
@@ -346,7 +347,7 @@ Note there are no more actions (even for the dealer) since if all user hands go 
 
 ## Peek
 
-#### Request:
+#### Request `Action`:
 
 ```json:no-line-numbers
 {
@@ -369,7 +370,7 @@ Note there are no more actions (even for the dealer) since if all user hands go 
 :::
 
 
-#### Response:
+#### Response `Update`:
 
 ```json:no-line-numbers
 {
@@ -418,7 +419,7 @@ Dealer did not have blackjack so the second dealer card still is not visible to 
 ```
 ## Stand
 
-#### Request:
+#### Request `Action`:
 
 ```json:no-line-numbers
 {
@@ -430,7 +431,7 @@ Dealer did not have blackjack so the second dealer card still is not visible to 
 }
 ```
 
-#### Response:
+#### Response `Update`:
 The response will simply return an empty `nextActions` for the current hand. Note that roundEnded is not set to `true` yet since there are dealer actions that need to be completed. Dealer actions are not presented to the user. They need to automatically be triggered by frontend as there will not be any options in `nextAction` other than `Hit` .
 ```json:no-line-numbers
 {
@@ -448,7 +449,7 @@ The response will simply return an empty `nextActions` for the current hand. Not
 
 
 ## Surrender
-#### Request:
+#### Request `Action`:
 
 ```json:no-line-numbers
 {
@@ -462,7 +463,7 @@ The response will simply return an empty `nextActions` for the current hand. Not
 
 When surrender is available as an action & triggered by player, the game ends immediately and half the bet amount is returned back to the user
 
-#### Response:
+#### Response `Update`:
 ```json:no-line-numbers
 {
     "eventType": "RoundUpdate",
