@@ -56,6 +56,7 @@ let nav = [{
 
 export default defineUserConfig({
     bundler: viteBundler(),
+    base: "/og-docs/",
     theme: defaultTheme({
 
         logo: '/images/dark-bg-hexagonal.png', //https://www.virail.com/v4/images/logo-green.svg',
