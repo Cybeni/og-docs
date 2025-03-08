@@ -15,11 +15,12 @@ actions:
     link: /api-docs/introduction.md
     type: secondary
 features:
-  - title: Feature 1
-    details: Feature 1 has details
-  - title: Feature 2
-    details: Feature 2 has details
-  - title: Feature 3
-    details: Feature 3 has details
-footer: Company
+  - title: Fully Scalable, Stateless Architecture
+    details: Seamlessly able to expand capacity—both vertically and horizontally—using a stateless design. With automatic load balancing across servers.
+  - title: Robust Game Simulations
+    details: Consistently measuring game performance with massive simulations running in continuous integration. Simulating millions of users and rounds to deliver insights into critical KPIs before deployments.
+  - title: Comprehensive Logging & Alerting
+    details: Fully cusomisable dashbaords for all kinds of game metrics and system monitoring. As well as notifications & alerts setup for KPIs
+
+# footer: Company
 ---
