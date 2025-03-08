@@ -7,7 +7,6 @@
 .gitconfig
 **/schema_archive
 extra-services.docker-compose.yml 
-.env2
 # VuePress default temp directory
 **/.vuepress/.temp
 # VuePress default cache directory
