@@ -25,13 +25,27 @@ let nav = [{
     children: [
         {
             text: 'Introduction',
-            link: '/api-docs/introduction.md'
-        }, {
-            text: 'Websocket Guide',
-            link: '/api-docs/websocket-guide.md'
+            link: '/api-docs/introduction.md',
+            children: []
+        }, 
+        {
+            text: 'HTTP Guide',
+            children: [{
+                text: "Introduction",
+                link: '/api-docs/http-guide/introduction.md'
+            },
+            {
+                text: "Get game configs",
+                link: '/api-docs/http-guide/get-configs.md'
+            }]
         },
         {
-            text: 'Detailed Game API Guide',
+            text: 'Websocket Guide',
+            link: '/api-docs/websocket-guide.md',
+            children: []
+        },
+        {
+            text: 'Game Integrations Guide',
             children: [{
                 text: "Blackjack",
                 link: "/api-docs/full-game-specific-guide/blackjack.md"

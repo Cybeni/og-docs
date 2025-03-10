@@ -197,7 +197,7 @@ At any point the user might want to stop the Autobet mid-way. Frontend should se
         "autobetPayout": "0",
         "roundEnded": true
     },
-    "round_id": "<some-round-id>"
+    "roundId": "<some-round-id>"
 }
 ```
 
@@ -210,7 +210,7 @@ At any point the user might want to stop the Autobet mid-way. Frontend should se
 ```json
 {
     "type": "RoundState",
-    "round_id": "<some-round-id>",
+    "roundId": "<some-round-id>",
     "data": {
         "action": "Autobet",
         "nextActions": [ "NewBet", "EndAutobet" ],
