@@ -35,6 +35,18 @@ let nav = [{
                 link: '/api-docs/http-guide/introduction.md'
             },
             {
+                text: "Get player balance",
+                link: '/api-docs/http-guide/get-player-balance.md'
+            },
+            {
+                text: "Get player seeds",
+                link: '/api-docs/http-guide/get-player-seeds.md'
+            },
+            {
+                text: "Verify game round",
+                link: '/api-docs/http-guide/verify-game-round.md'
+            },
+            {
                 text: "Get game configs",
                 link: '/api-docs/http-guide/get-configs.md'
             }]
@@ -63,6 +75,10 @@ let nav = [{
 {
     text: 'Random Number Generator',
     link: '/rng/',
+},
+{
+    text: 'Game CMS',
+    link: '/game-cms.md'
 }]
 
 
