@@ -17,8 +17,16 @@ let nav = [{
             link: '/full-documentation/introduction.md'
         },
         {
-            text: 'Gameservice',
+            text: 'Gameservice Details',
             link: '/full-documentation/gameservice.md'
+        },
+        {
+            text: 'Gateway Details',
+            link: '/full-documentation/gateway.md'
+        },
+        {
+            text: 'Event Bus Details',
+            link: '/full-documentation/nats.md'
         },
         {
             text: 'Random Number Generator',
@@ -73,6 +81,7 @@ let nav = [{
         },
         {
             text: 'Game Integrations Guide',
+            link: "/api-docs/full-game-specific-guide/blackjack.md",
             children: [{
                 text: "Blackjack",
                 link: "/api-docs/full-game-specific-guide/blackjack.md"

@@ -1,3 +1,6 @@
+---
+next: "/api-docs/full-game-specific-guide/limbo.md"
+---
 # Blackjack
 
 This is a list of all possible actions for blackjack
