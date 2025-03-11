@@ -31,7 +31,7 @@ Below is a all the possible actions available for Limbo. A Limbo game round alwa
 | `betAmount` | float | yes | 0 |  The amount the user wants to bet for that hand | 
 | `multiplier` | float | yes |  | This is the user selected multiplier to play on |
 
-If betAmount is set to 0 (or ommitted) this is considered a round of "free play". This is only allowed provided that the bet limits configured via the engine's CMS have a "min bet limit" down to zero. Check out [how to retrieve the bet limits from CMS](/api-docs/http-guide/get-configs.md)
+If betAmount is set to 0 (or ommitted) this is considered a round of "free play". This is only allowed provided that the bet limits configured via the engine's CMS have a "min bet limit" down to zero. Check out [how to retrieve the bet limits from CMS](/api-docs/http-guide/game-configs.md)
 
 #### Response `Update`:
 ```json:no-line-numbers

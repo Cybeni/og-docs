@@ -36,7 +36,7 @@ Below is a all the possible actions available for Baccarat. A Baccarat game roun
 |`dragon7BetAmount`| float| no | 0 | This is the bet amount when user wants to bet on dragon 7 sidebet |
 |`pandaBetAmount`| float| no | 0 | This is the bet amount when user wants to bet on panda sidebet |
 
-The above are all optional for the user to decide on what to bet on. If **ALL** of the above bets are set to 0 (or ommitted) this is considered a round of "free play". This is only allowed provided that the bet limits configured via the engine's CMS have a "min bet limit" down to zero. Check out [how to retrieve the bet limits from CMS](/api-docs/http-guide/get-configs.md)
+The above are all optional for the user to decide on what to bet on. If **ALL** of the above bets are set to 0 (or ommitted) this is considered a round of "free play". This is only allowed provided that the bet limits configured via the engine's CMS have a "min bet limit" down to zero. Check out [how to retrieve the bet limits from CMS](/api-docs/http-guide/game-configs.md)
 
 
 #### Response `Update`: 

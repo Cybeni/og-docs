@@ -22,6 +22,7 @@ let nav = [{
 {
     text: 'API Docs',
     ariaLabel: 'API Docs Menu',
+    link: '/api-docs/introduction.md',
     children: [
         {
             text: 'Introduction',
@@ -48,7 +49,7 @@ let nav = [{
             },
             {
                 text: "Get game configs",
-                link: '/api-docs/http-guide/get-configs.md'
+                link: '/api-docs/http-guide/game-configs.md'
             }]
         },
         {

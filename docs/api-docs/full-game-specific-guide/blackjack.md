@@ -31,7 +31,7 @@ This is a list of all possible actions for blackjack
 | `perfecPairsBetAmount` | float | no | This is the bet amount for the perfect pairs side bet|
 | `pokerBetAmount` | float | no | This is the bet amount for the "21+1" side bet|
 
-If betAmount is set to 0 (or ommitted) this is considered a round of "free play". This is only allowed provided that the bet limits configured via the engine's CMS have a "min bet limit" down to zero. Check out [how to retrieve the bet limits from CMS](/api-docs/http-guide/get-configs.md)
+If betAmount is set to 0 (or ommitted) this is considered a round of "free play". This is only allowed provided that the bet limits configured via the engine's CMS have a "min bet limit" down to zero. Check out [how to retrieve the bet limits from CMS](/api-docs/http-guide/game-configs.md)
 
 #### Response `Update`:
 
