@@ -1,6 +1,7 @@
 import { viteBundler } from '@vuepress/bundler-vite'
 import { defaultTheme } from '@vuepress/theme-default'
 import { defineUserConfig } from 'vuepress'
+import { markdownImagePlugin } from '@vuepress/plugin-markdown-image'
 
 
 let nav = [{
@@ -8,12 +9,25 @@ let nav = [{
     link: '/README.md',
 },
 {
-    text: 'Introduction',
-    link: '/introduction/',
-    children: [{
-        text: 'Gameservice',
-        link: '/gameservice/'
-    }]
+    text: 'Full Documentation',
+    link: '/full-documentation/introduction.md',
+    children: [
+        {
+            text: 'Introduction',
+            link: '/full-documentation/introduction.md'
+        },
+        {
+            text: 'Gameservice',
+            link: '/full-documentation/gameservice.md'
+        },
+        {
+            text: 'Random Number Generator',
+            link: '/full-documentation/rng.md',
+        },
+        {
+            text: 'Game CMS',
+            link: '/full-documentation/game-cms.md'
+        }]
 },
 {
     text: 'Get Started',
@@ -28,7 +42,7 @@ let nav = [{
             text: 'Introduction',
             link: '/api-docs/introduction.md',
             children: []
-        }, 
+        },
         {
             text: 'HTTP Guide',
             children: [{
@@ -72,14 +86,6 @@ let nav = [{
                 link: "/api-docs/full-game-specific-guide/baccarat.md"
             }]
         }]
-},
-{
-    text: 'Random Number Generator',
-    link: '/rng/',
-},
-{
-    text: 'Game CMS',
-    link: '/game-cms.md'
 }]
 
 
@@ -110,4 +116,16 @@ export default defineUserConfig({
     lang: 'en-US',
     title: 'Original Games Engine',
     description: 'Casino games built with a powerful custom game engine written in GO',
+    plugins: [
+        markdownImagePlugin({
+          // Enable figure
+          figure: true,
+          // Enable image lazyload
+          lazyload: true,
+          // Enable image mark
+          mark: true,
+          // Enable image size
+          size: true,
+        }),
+      ],
 })
