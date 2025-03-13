@@ -9,7 +9,7 @@ let nav = [{
     link: '/README.md',
 },
 {
-    text: 'Full Documentation',
+    text: 'Full System Description',
     link: '/full-documentation/introduction.md',
     children: [
         {
