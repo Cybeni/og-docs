@@ -21,10 +21,10 @@ Below is a brief overview of what happens when the application starts:
 ### High‐Level Overview
 1.	Client opens a WebSocket connection to the server.
 2.	Server initializes a **Session** object to handle authentication and game‐related data (including round state, player seeds, etc.).
-3.	The client **Authenticates** by sending a message of type "Authenticate". Once authenticated, the session is stored in a Map of active WebSocket connections.
+3.	The client **Authenticates** by sending a message of type `Authenticate`. Once authenticated, the session is stored in a Map of active WebSocket connections.
 4.	Subsequent client actions flow through the **`GameEvent` class**, which identifies the appropriate game logic and **publishes** the action to an internal event bus (NATS) if needed.
 5.	The game service (in another process) consumes these actions from NATS, processes the game logic, and **publishes updates back** to the same NATS event bus. See [gameservice](../full-documentation/gameservice.md) for more details on this process.
-6.	The gateway (through the Session instance) **consumes these updates**, applies changes to the round state, and pushes the updates back to the client over the same WebSocket. The `GameUpdate` class is responsible for performing these tasks.
+6.	The gateway (through the Session instance) **consumes these updates**, updates the round state attached to the consumed message, and pushes the updates back to the client over the same WebSocket. The `GameUpdate` class is responsible for performing these tasks.
 
 ### Lifecycle of a websocket action:
 
@@ -178,15 +178,18 @@ handleGameResponse = async (subject, rawMessage) => {
 
 
 ### 3. Game Event Handling (GameEvent Class)
-**Purpose:**
 
-When the client sends an action (e.g., “Open,” “Hit,” “Stand,” etc.), the `GameEvent` class is used to:
-1.	Validate incoming JSON (via `Joi`).
-2.	Ensure the user has sufficient funds (for betting) if needed.
-3.	Publish the action to NATS so that the actual game service can process it asynchronously.
+
+:::info When the client sends an action (e.g., “Open,” “Hit,” “Stand,” etc.), the `GameEvent` class is used to:
+1. Validate incoming JSON (via `Joi`).
+2. Ensure the user has sufficient funds (for betting) if needed.
+3. Publish the action to NATS so that the actual game service can process it asynchronously.
+4. Update state nonce
+:::
 
 #### validateInputs()
 - Uses a `Joi` schema (`gameEventSchema`) to ensure the message shape is correct, verifying fields like type, action, `gameId`, and data.
+
 #### handleEvent()
 There are 2 possible event types for the websocket (apart from `Authenticate`): `RoundState` & `RoundAction`
 - If it’s `RoundAction`, it tries to set an idempotent key so the same action doesn’t get processed multiple times.
@@ -202,6 +205,35 @@ There are 2 possible event types for the websocket (apart from `Authenticate`): 
 - Fetches the current round state from Redis. If not found, tries the database.
 - This ensures the server’s memory is consistent with the shared store in Redis or the DB.
 
+
+### 4. Game Updates (GameUpdate Class)
+:::info When the `gameservice` publishes an update for a given round, a `GameUpdate` object is created to:
+1. Validate the update message.
+2. Create neccesary transaction to the platform API
+3. Send the relevant update to the client.
+:::
+
+#### Key Methods:
+ 
+**constructor():**
+
+- Extracts the state, update, roundId, and actionId from the incoming message.
+
+**handleUpdate():**
+
+- Checks if the round has already been closed. If so, runs onRoundClosed().
+- Ensures we strip out any server‐only metadata from the data we send to the client.
+
+**onRoundClosed():**
+
+- Potentially sends a payout transaction to the platform if total_payout > 0.
+- Resets the round state in Redis and in the Session.
+
+**cacheState():**
+
+- Writes the updated round state to Redis (so that subsequent requests see the newest data).
+- send(client):
+- Sends the final or intermediate update to the client’s WebSocket.
 
 
 ### Putting It All Together (Referencing the Diagram)
