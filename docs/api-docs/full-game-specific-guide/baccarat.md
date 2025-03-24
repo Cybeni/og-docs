@@ -348,7 +348,7 @@ Fields not yet described:
 | Field Name | Type  | Description|
 |----|---|-----|
 | `lastBetStatus` | int | This shows the outcome status of the last bet placed | 
-| `autobetsAmount` | This  tallies up the total bets placed till this point in the autobet |
+| `autobetAmount` | This  tallies up the total bets placed till this point in the autobet |
 | `totalBetAmount` | float | This is a tally of all the bets (player, banker tie, panda & dragon7) for the current round |
 | `originalPlayerBetAmount` | float | This is the first bet placed by user when triggering the autobet.|
 | `originalBankerBetAmount` | float | This is the first bet placed by user when triggering the autobet.|

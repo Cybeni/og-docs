@@ -228,7 +228,7 @@ At any point the user might want to stop the Autobet mid-way. Frontend should se
         "autobetPayout": "1.212",
         "roundEnded": true,
         "lastBetStatus": "win",
-        "autobetsAmount": "1.2"
+        "autobetAmount": "1.2"
     },
     "eventId": "<some-event-uuid>"
 }
@@ -239,7 +239,7 @@ Fields not yet described:
 | Field Name | Type  | Description|
 |----|---|-----|
 | `lastBetStatus` | int | This shows the outcome status of the last bet placed | 
-| `autobetsAmount` | This  tallies up the total bets placed till this point in the autobet |
+| `autobetAmount` | This  tallies up the total bets placed till this point in the autobet |
 | `originalBetAmount` | int | This is first bet placed by player when triggereing the autobet.  |
 
 :::info `originalBetAmount` is needed to be saved in memory in case the `betAmount` changes due to onWin and onLoss and thus needed to be reset to originl bet
