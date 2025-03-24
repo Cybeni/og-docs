@@ -3,7 +3,7 @@
 Below is a all the possible actions available for Baccarat. A Baccarat game round always starts with `Bet` or `Autobet` action:
 
 ```json:no-line-numbers
-["Bet", "Autobet", "NewBet", "EndAutobet"]
+["Bet", "Autobet", "NewBet"]
 ```
 
 ## Bet
@@ -156,7 +156,7 @@ This is a feature where the player can decide to play N bets in a row automatica
     "eventId": "<some-event-uuid>",
     "data": {
         "action": "Autobet",
-        "nextActions": [ "NewBet", "EndAutobet" ],
+        "nextActions": [ "NewBet" ],
         "bankerHand": {
             "cards": [
                 { "value": 7, "suit": 2, "index": 6 },
@@ -221,7 +221,7 @@ The client should wait for a response before triggering a new bet automatically:
     "eventId": "<some-event-uuid>",
     "data": {
         "action": "NewBet",
-        "nextActions": [ "EndAutobet", "NewBet" ],
+        "nextActions": [ "NewBet" ],
         "bankerHand": {
             "cards": [
                 { "value": 3, "suit": 0, "index": 2 },
@@ -257,40 +257,6 @@ The client should wait for a response before triggering a new bet automatically:
 - The `totalPayout` always shows **the last round's payout**. it is not accumulating all rounds.
 
 
-
-## EndAutobet
-At any point the user might want to stop the Autobet mid-way. Frontend should send `EndAutobet` when that happens.
-#### Request `Action`: 
-```json:no-line-numbers
-{
-	"eventType": "RoundAction",
-	"action": "EndAutobet",
-	"gameId": "og-baccarat",
-    "eventId": "<some-event-uuid>",
-	"data": {}
-}
-```
-
-
-#### Response `Update`:
-```json
-{
-    "action": "EndAutobet",
-    "eventType": "RoundUpdate",
-    "eventId": "<some-event-uuid>",
-    "data": {
-        "nextActions": [],
-        "roundEnded": true
-    },
-    "roundId": "<some-round-uuid>"
-}
-```
-
-:::warning Note
- `EndAutobet` should only be triggered on user deciding to stop the autobet manually. If the `autobetMax` is set to 5 and 5 rounds have been played, the engine closes the autobet automatically
-:::
-
-
 ## Full Round State Example
 
 ```json:no-line-numbers
@@ -299,7 +265,7 @@ At any point the user might want to stop the Autobet mid-way. Frontend should se
     "roundId": "<some-round-id>",
     "data": {
         "action": "Autobet",
-        "nextActions": [ "NewBet", "EndAutobet" ],
+        "nextActions": [ "NewBet" ],
         "playerBetAmount": "1",
         "bankerBetAmount": "0",
         "tieBetAmount": "0",
@@ -357,21 +323,4 @@ Fields not yet described:
 | `originalPandaBetAmount` | float | This is the first bet placed by user when triggering the autobet.|
 
 :::info The original bet amounts are needed to be saved in memory in case these change due to `onWin` and `onLoss` feature. And Thus needed to be reset to originl bet
-:::
-
-
-## Infinite Autobetting while user closes tab
-
-It is **important** to note that when `autobetMax` is set to 0 (infinite) the player might close the browser tab before manually stopping the autobet. In this scenario the engine will be left with an open game waiting for the player to come back and continue autobetting. For a better user experience, the frontend should trigger `EndAutobet` **when the user logs back in to continue playing**. This is easily done since the frontend **always** checks `RoundState` when user comes back into any game. So if `RoundState` event responds with ` "nextActions": [ "NewBet", "EndAutobet" ]`, then FE should automatically trigger `EndAutobet`. So user can start playing new rounds.
-
-::: tip To recap the flow for this scenario: 
-
-1. User starts an infinite Autobet (FE triggers `Autobet` action)
-2. FE triggers N bets with `NewBet` (one at a time)
-3. Player closes browser tab
-4. Player comes back in later
-5. FE sends `Authenticate`
-6. FE sends `RounState` and finds an ongoing `Autobet`
-7. FE sends `EndAutobet` immediately
-8. User is presented with a clean new baccarat game.
 :::

@@ -3,7 +3,7 @@
 Below is a all the possible actions available for Limbo. A Limbo game round always starts with `Bet` or `Autobet` action:
 
 ```json:no-line-numbers
-["Bet", "Autobet", "NewBet", "EndAutobet"]
+["Bet", "Autobet", "NewBet"]
 ```
 
 ## Bet
@@ -108,7 +108,7 @@ This is a feature where the player can decide to play N bets in a row automatica
     "action": "Autobet",
     "eventId": "<some-event-uuid>",
     "data": {
-        "nextActions": [ "NewBet", "EndAutobet" ],
+        "nextActions": [ "NewBet" ],
         "betAmount": "1.2",
         "autobetCount": 1,
         "generatedMultiplier": "1.23",
@@ -155,7 +155,7 @@ The client should wait for a response before triggering a new bet automatically:
     "action": "NewBet",
     "eventId": "<some-event-uuid>",
     "data": {
-        "nextActions": [ "NewBet", "EndAutobet" ],
+        "nextActions": [ "NewBet" ],
         "betAmount": "1.2",
         "autobetCount": 2,
         "generatedMultiplier": "1.36",
@@ -172,39 +172,6 @@ The client should wait for a response before triggering a new bet automatically:
 - `autobetPayout` is keeping a total tally of total payouts for all rounds played in this autobet
 - The `totalPayout` always shows **the last round's payout**. it is not accumulating all rounds.
 
-## EndAutobet
-At any point the user might want to stop the Autobet mid-way. Frontend should send `EndAutobet` when that happens.
-
-#### Request `Action`: 
-```json:no-line-numbers
-{
-	"eventType": "RoundAction",
-	"action": "EndAutobet",
-	"gameId": "og-limbo",
-    "eventId": "<some-event-uuid>",
-	"data": {}
-}
-```
-
-#### Respose `Update`:
-```json
-{
-    "eventType": "RoundUpdate",
-    "action": "EndAutobet",
-    "eventId": "<some-event-uuid>",
-    "data": {
-        "nextActions": [],
-        "autobetPayout": "0",
-        "roundEnded": true
-    },
-    "roundId": "<some-round-id>"
-}
-```
-
-:::warning Note
- `EndAutobet` should only be triggered on user deciding to stop the autobet manually. If the `autobetMax` is set to 5 and 5 rounds have been played, the engine closes the autobet automatically
-:::
-
 ## Full Round State Example
 
 ```json
@@ -213,7 +180,7 @@ At any point the user might want to stop the Autobet mid-way. Frontend should se
     "roundId": "<some-round-id>",
     "data": {
         "action": "Autobet",
-        "nextActions": [ "NewBet", "EndAutobet" ],
+        "nextActions": [ "NewBet" ],
         "betAmount": "1.2",
         "originalBetAmount": "1.2",
         "autobetMax": 0,
@@ -243,21 +210,4 @@ Fields not yet described:
 | `originalBetAmount` | int | This is first bet placed by player when triggereing the autobet.  |
 
 :::info `originalBetAmount` is needed to be saved in memory in case the `betAmount` changes due to onWin and onLoss and thus needed to be reset to originl bet
-:::
-
-
-## Infinite Autobetting while user closes tab
-
-It is **important** to note that when `autobetMax` is set to 0 (infinite) the player might close the browser tab before manually stopping the autobet. In this scenario the engine will be left with an open game waiting for the player to come back and continue autobetting. For a better user experience, the frontend should trigger `EndAutobet` **when the user logs back in to continue playing**. This is easily done since the frontend **always** checks `RoundState` when user comes back into any game. So if `RoundState` event responds with ` "nextActions": [ "NewBet", "EndAutobet" ]`, then FE should automatically trigger `EndAutobet`. So user can start playing new rounds.
-
-::: tip To recap the flow for this scenario: 
-
-1. User starts an infinite Autobet (FE triggers `Autobet` action)
-2. FE triggers N bets with `NewBet` (one at a time)
-3. Player closes browser tab
-4. Player comes back in later
-5. FE sends `Authenticate`
-6. FE sends `RounState` and finds an ongoing `Autobet`
-7. FE sends `EndAutobet` immediately
-8. User is presented with a clean new limbo game.
 :::
