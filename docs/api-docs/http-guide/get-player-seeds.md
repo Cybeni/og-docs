@@ -27,9 +27,9 @@ curl -X GET 'http://localhost:3000/v1/player/seeds/80ebf563-43b2-4647-ba55-1d084
 :::tip :white_check_mark:
 ```json 
 {
-    "server_seed_hashed": "a83f3ce6dab1e8a1d335bf648601dbf8ee12e53fdc3058bf2096e1873c1fd74d",
-    "next_server_seed_hashed": "7da56b0fff9637db47e4f42f0ad1c6920cd58a299c72ff1fb50c481c7f1f7353",
-    "client_seed": "bb39c594"
+    "serverSeedHashed": "a83f3ce6dab1e8a1d335bf648601dbf8ee12e53fdc3058bf2096e1873c1fd74d",
+    "nextServerSeedHashed": "7da56b0fff9637db47e4f42f0ad1c6920cd58a299c72ff1fb50c481c7f1f7353",
+    "clientSeed": "bb39c594"
 }
 ```
 :::
