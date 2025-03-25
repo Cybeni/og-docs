@@ -193,7 +193,7 @@ All the fields in the response are already described previously. Good to note th
     "data": {
         "nextActions": [],
         "roundEnded": true,
-        "totalPayout": "-52.5",
+        "payout": "-52.5",
         "playerHands": [
             {
                 "cards": [
@@ -214,12 +214,12 @@ All the fields in the response are already described previously. Good to note th
 | `status` | string | This field is added whenever a hand ends its play, It can be either of: `Bust`, `Win`, `Push` |
 | `payout` | string | This is the amount the user lost (or won depending on the `status`) in this hand. |
 | `roundEnded` | bool | If there are no more actions to take, then this value will be `true` and no more actions are allowed to be send through the websocket. |
-| `totalPayout` | string | If round is closed, the backend will tally up all the player's winnings and losses into this field.  |
+| `payout` | string | If round is closed, the backend will tally up all the player's winnings and losses into this field.  |
 
 
 ::: info Note
-- The `totalPayout` **does not** include sidebets. Sidebets are always considered indipendent of the game. Therefore the `totalPayout` is the sum of all the `payout` fields inside the player's hands.
-- Note: on a win, the amount in `totalPayout` also includes the player's initial bet itself.
+- The `payout` **does not** include sidebets. Sidebets are always considered indipendent of the game. Therefore the `payout` is the sum of all the `payout` fields inside the player's hands.
+- Note: on a win, the amount in `payout` also includes the player's initial bet itself.
 :::
 
 ## Split
@@ -333,14 +333,14 @@ Note there are no more actions (even for the dealer) since if all user hands go 
     "data": {
         "nextActions": [],
         "roundEnded": true,
-        "totalPayout": "-105",
+        "payout": "0",
         "playerHands": [
             {
                 "cards": [
                     {"value": 5,"suit": 1,"index": 4}
                 ],
                 "status": "bust",
-                "payout": "-105",
+                "payout": "0",
                 "betAmount": "105"
             }
         ]
@@ -386,7 +386,7 @@ Note there are no more actions (even for the dealer) since if all user hands go 
         "handIndex": 0,
         "playerHands": [{}],
         "insurance": {
-            "payout": "-100.9",
+            "payout": "0",
             "status": "Insurance Lost"
         }
     }
@@ -406,11 +406,11 @@ Dealer did not have blackjack so the second dealer card still is not visible to 
         "handIndex": 0,
         "roundEnded": true,
         "status": "insurance_lost",
-        "totalPayout": "-52.5",
+        "payout": "0",
         "playerHands": [
             {
                 "status": "insurance_lost",
-                "payout": "-52.5"
+                "payout": "0"
             }
         ],
         "insurance": {
@@ -476,7 +476,7 @@ When surrender is available as an action & triggered by player, the game ends im
     "data": {
         "nextActions": [],
         "roundEnded": true,
-        "totalPayout": "26.25",
+        "payout": "26.25",
         "playerHands": [
             {
                 "status": "Surrender",
