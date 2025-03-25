@@ -69,7 +69,7 @@ The above are all optional for the user to decide on what to bet on. If **ALL** 
             ],
             "handValue": 3
         },
-        "totalPayout": "0",
+        "payout": "0",
         "roundEnded": true,
         "dragon7Sidebet": {
             "payout": "0"
@@ -94,7 +94,7 @@ The above are all optional for the user to decide on what to bet on. If **ALL** 
 The schema is identical to blackjack, the only difference is in the values. Baccarat `ten`, `jack`, `queen` & `king` have a `value` of 0 and `Ace` always has a value of 1
 :::
 
-The `Bet` update response always settles the round and will contain `totalPayout` value, which is any winnings from betting on player or banker. And will contain also the `sidebet.payout` values for sidebet winnings. 
+The `Bet` update response always settles the round and will contain `payout` value, which is any winnings from betting on player or banker. And will contain also the `sidebet.payout` values for sidebet winnings. 
 
 #### List of possible sidebet statues
 
@@ -171,7 +171,7 @@ This is a feature where the player can decide to play N bets in a row automatica
             ],
             "handValue": 7
         },
-        "totalPayout": "1",
+        "payout": "1",
         "dragon7Sidebet": { "payout": "0" },
         "pandaSidebet": { "payout": "0" },
         "autobetMax": 0,
@@ -194,7 +194,7 @@ This is a feature where the player can decide to play N bets in a row automatica
 So by triggering `Autobet`
 - The engine starts the **first bet**
 - `autobetCount` is incremented by 1
-- The first round ends showing the totalPayout and the hands outcomes.
+- The first round ends showing the payout and the hands outcomes.
 
 
 
@@ -237,7 +237,7 @@ The client should wait for a response before triggering a new bet automatically:
             ],
             "handValue": 5
         },
-        "totalPayout": "0",
+        "payout": "0",
         "dragon7Sidebet": { "payout": "0" },
         "pandaSidebet": { "payout": "0" },
         "autobetMax": 0,
@@ -254,7 +254,7 @@ The client should wait for a response before triggering a new bet automatically:
 
 - As you can see the `autobetCount` incremented by 1 again
 - `autobetPayout` is keeping a total tally of total payouts for all rounds played in this autobet
-- The `totalPayout` always shows **the last round's payout**. it is not accumulating all rounds.
+- The `payout` always shows **the last round's payout**. it is not accumulating all rounds.
 
 
 
@@ -326,7 +326,7 @@ At any point the user might want to stop the Autobet mid-way. Frontend should se
             ],
             "handValue": 5
         },
-        "totalPayout": "0",
+        "payout": "0",
         "dragon7Sidebet": { "status": "sidebetLost", "payout": "0" },
         "pandaSidebet": { "status": "sidebetLost", "payout": "0" },
         "autobetMax": 0,
