@@ -43,7 +43,7 @@ If betAmount is set to 0 (or ommitted) this is considered a round of "free play"
     "data": {
         "nextActions": [],
         "generatedMultiplier": "2.11",
-        "totalPayout": "79.27",
+        "payout": "79.27",
         "autobetPayout": "0",
         "roundEnded": true
     },
@@ -53,10 +53,10 @@ If betAmount is set to 0 (or ommitted) this is considered a round of "free play"
 | Field Name | Type  | Description|
 |----|----|-----|
 | `generatedMultiplier` | float | The randomly generated value by the engine | 
-| `totalPayout` | float | The amount the player won |
+| `payout` | float | The amount the player won |
 
 ::: info Note 
-- As per the limbo game design, if the `generatedMultiplier` is above the `multiplier` chosen by user, than the totalPayout = betAmount * multiplier
+- As per the limbo game design, if the `generatedMultiplier` is above the `multiplier` chosen by user, than the payout = betAmount * multiplier
 - `autobetPayout` can be ignored (it is only useful for autobetting see next section)
 :::
 
@@ -112,7 +112,7 @@ This is a feature where the player can decide to play N bets in a row automatica
         "betAmount": "1.2",
         "autobetCount": 1,
         "generatedMultiplier": "1.23",
-        "totalPayout": "1.212",
+        "payout": "1.212",
         "autobetPayout": "1.212",
         "roundEnded": true
     },
@@ -129,7 +129,7 @@ This is a feature where the player can decide to play N bets in a row automatica
 So by triggering `Autobet`
 - The engine starts the **first bet**
 - `autobetCount` is incremented by 1
-- The first round ends showing the totalPayout and the generated multiplier.
+- The first round ends showing the payout and the generated multiplier.
 
 ## NewBet
 **The frontend should then automatically call `NewBet` which would trigger a new round with the same behavior:**
@@ -159,7 +159,7 @@ The client should wait for a response before triggering a new bet automatically:
         "betAmount": "1.2",
         "autobetCount": 2,
         "generatedMultiplier": "1.36",
-        "totalPayout": "1.212",
+        "payout": "1.212",
         "autobetPayout": "2.424",
         "roundEnded": true
 
@@ -170,7 +170,7 @@ The client should wait for a response before triggering a new bet automatically:
 
 - As you can see the `autobetCount` incremented by 1 again
 - `autobetPayout` is keeping a total tally of total payouts for all rounds played in this autobet
-- The `totalPayout` always shows **the last round's payout**. it is not accumulating all rounds.
+- The `payout` always shows **the last round's payout**. it is not accumulating all rounds.
 
 ## EndAutobet
 At any point the user might want to stop the Autobet mid-way. Frontend should send `EndAutobet` when that happens.
@@ -224,7 +224,7 @@ At any point the user might want to stop the Autobet mid-way. Frontend should se
         "stopOnProfit": "0",
         "stopOnLoss": "0",
         "generatedMultiplier": "61.03",
-        "totalPayout": "1.212",
+        "payout": "1.212",
         "autobetPayout": "1.212",
         "roundEnded": true,
         "lastBetStatus": "win",
