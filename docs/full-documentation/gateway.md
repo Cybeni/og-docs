@@ -22,9 +22,9 @@ Below is a brief overview of what happens when the application starts:
 1.	Client opens a WebSocket connection to the server.
 2.	Server initializes a **Session** object to handle authentication and game‐related data (including round state, player seeds, etc.).
 3.	The client **Authenticates** by sending a message of type `Authenticate`. Once authenticated, the session is stored in a Map of active WebSocket connections.
-4.	Subsequent client actions flow through the **`GameEvent` class**, which identifies the appropriate game logic and **publishes** the action to an internal event bus (NATS) if needed.
+4.	Subsequent client actions flow through the **`RoundEvent` class**, which identifies the appropriate game logic and **publishes** the action to an internal event bus (NATS) if needed.
 5.	The game service (in another process) consumes these actions from NATS, processes the game logic, and **publishes updates back** to the same NATS event bus. See [gameservice](../full-documentation/gameservice.md) for more details on this process.
-6.	The gateway (through the Session instance) **consumes these updates**, updates the round state attached to the consumed message, and pushes the updates back to the client over the same WebSocket. The `GameUpdate` class is responsible for performing these tasks.
+6.	The gateway (through the Session instance) **consumes these updates**, updates the round state attached to the consumed message, and pushes the updates back to the client over the same WebSocket. The `RoundUpdate` class is responsible for performing these tasks.
 
 ### Lifecycle of a websocket action:
 
@@ -32,8 +32,8 @@ Below is a brief overview of what happens when the application starts:
 ![websocket Action Lifecycle](/images/gateway-action-lifecycle-dark.png#dark)
 
 
-- **Top half (`GameEvent`):** Client’s action request is identified, validated, published to the game service via NATS, and eventually triggers game updates.
-- **Bottom half (`GameUpdate`):** The game update is consumed, validated, triggers local state updates (potentially calls platform transactions), stores the updated round state, and sends the response back to the client.
+- **Top half (`RoundEvent`):** Client’s action request is identified, validated, published to the game service via NATS, and eventually triggers game updates.
+- **Bottom half (`RoundUpdate`):** The game update is consumed, validated, triggers local state updates (potentially calls platform transactions), stores the updated round state, and sends the response back to the client.
 
 
 
@@ -41,7 +41,7 @@ Below is a brief overview of what happens when the application starts:
 1.	**Express.js:** Even though the code references Express.js at a high level, the actual WebSocket upgrade handling is done via a custom route or a library that ties into Express.
 2.	**ws (WebSocket library):** The code in `export const ws = async (ws, req) => { ... }` uses typical `ws` library–style callbacks `ws.on('message', ...)`, `ws.on('close', ...)` etc ...
 3.	**NATS (JetStream / nats.js):**
-    - Used to publish client actions to downstream game services (publishAction in GameEvent) and to consume game updates.
+    - Used to publish client actions to downstream game services (publishAction in RoundEvent) and to consume game updates.
     - The Session class sets up “consumers” and “message iterators,” so each session can listen to updates intended for that specific game session.
 4. **Redis:**
     - Holds the latest round state and seed data for each player, ensuring a consistent single source of truth.
@@ -49,7 +49,7 @@ Below is a brief overview of what happens when the application starts:
 5.	**Big.js:**
     - Used to handle potentially large or precise numeric calculations, particularly around bet amounts, payouts, etc.
 6. **Joi:**
-    - Used in `GameEvent` to validate incoming messages from the client (the shape of JSON, required fields, allowed values, etc.).
+    - Used in `RoundEvent` to validate incoming messages from the client (the shape of JSON, required fields, allowed values, etc.).
 
 
 
@@ -82,7 +82,7 @@ ws.on('message', async (msg) => {
     // parse JSON
     // authenticate session
     // load & update round state
-    // instantiate a dynamic "GameEvent" class for the chosen game
+    // instantiate a dynamic "RoundEvent" class for the chosen game
     // publish to NATS if needed
     // catch any errors and send them back to the client
 });
@@ -100,7 +100,7 @@ ws.on('message', async (msg) => {
 
 on any request that comes in after authentication: 
 - We check that the client is authenticated (`wsClients.has(session.gameSessionId)`). If not, it’s an error.
-- We locate the correct `GameEvent` subclass from `gameClass[msg?.gameId]?.event`
+- We locate the correct `RoundEvent` subclass from `gameClass[msg?.gameId]?.event`
 - Retrieve the latest round state from Redis:
 
 ```javascript
@@ -160,7 +160,7 @@ Once a consumer is created from the above `initialiseSessionConsumer`, a consume
 ```javascript
 handleGameResponse = async (subject, rawMessage) => {
     // parse the message JSON
-    // find the correct GameUpdate class for the game
+    // find the correct RoundUpdate class for the game
     // call handleUpdate()
     // update the session's state
     // send the result to the client
@@ -168,7 +168,7 @@ handleGameResponse = async (subject, rawMessage) => {
 ```
 
 - This method is invoked when the game service publishes updates for the specific `<gameSessionId>`, and gateway consumer reads it.
-- A `GameUpdate` subclass is instantiated; it handles the logic for the update message, sending payouts, saves updated state to memory & cache.
+- A `RoundUpdate` subclass is instantiated; it handles the logic for the update message, sending payouts, saves updated state to memory & cache.
 - Finally, the update is forwarded to the client’s WebSocket via update.send(this.wsConnection).
 
 
@@ -177,10 +177,10 @@ handleGameResponse = async (subject, rawMessage) => {
 - Clears out everything in `session.state` except for metadata. That is needed when the round closes.
 
 
-### 3. Game Event Handling (GameEvent Class)
+### 3. Game Event Handling (RoundEvent Class)
 
 
-:::info When the client sends an action (e.g., “Open,” “Hit,” “Stand,” etc.), the `GameEvent` class is used to:
+:::info When the client sends an action (e.g., “Open,” “Hit,” “Stand,” etc.), the `RoundEvent` class is used to:
 1. Validate incoming JSON (via `Joi`).
 2. Ensure the user has sufficient funds (for betting) if needed.
 3. Publish the action to NATS so that the actual game service can process it asynchronously.
@@ -206,8 +206,8 @@ There are 2 possible event types for the websocket (apart from `Authenticate`): 
 - This ensures the server’s memory is consistent with the shared store in Redis or the DB.
 
 
-### 4. Game Updates (GameUpdate Class)
-:::info When the `gameservice` publishes an update for a given round, a `GameUpdate` object is created to:
+### 4. Game Updates (RoundUpdate Class)
+:::info When the `gameservice` publishes an update for a given round, a `RoundUpdate` object is created to:
 1. Validate the update message.
 2. Create neccesary transaction to the platform API
 3. Send the relevant update to the client.
@@ -239,8 +239,8 @@ There are 2 possible event types for the websocket (apart from `Authenticate`): 
 ### Putting It All Together (Referencing the Diagram)
 
 1.	**Client Action Request**
-    - The front‐end calls the WebSocket with JSON: `{ type: "GameEvent", action: "Open", gameId: "...", data: {...} }`.
-    - The server identifies the game and uses `GameEvent` to parse and validate the request.
+    - The front‐end calls the WebSocket with JSON: `{ type: "RoundAction", action: "Bet", gameId: "...", data: {...} }`.
+    - The server identifies the game and uses `RoundEvent` Class to parse and validate the request.
 2.	**Load Current Round State**
     - `event.getGameState()` checks Redis to see if a round is currently open, merges it into the Session.
 3.	**Validate Request’s Action**
@@ -251,7 +251,7 @@ There are 2 possible event types for the websocket (apart from `Authenticate`): 
     - The gameservice processes the action, calculates the next game state, and publishes an update event to the same NATS stream. (**also publishes the new state**)
     - The server’s Session has an open JetStream consumer that receives that update.
 6.	**Identify Game & Validate Metadata**
-    - The server receives the update message, picks the right GameUpdate class, and checks the round data.
+    - The server receives the update message, picks the right RoundUpdate class, and checks the round data.
 7.	**Call Platform Transactions (if needed)**
     - If the update says “Round Closed, user won X,” the server calls Platform to process the payout.
 8.	**Update Round State in Redis**
@@ -264,7 +264,7 @@ There are 2 possible event types for the websocket (apart from `Authenticate`): 
 ### Important Details to Note
 - **Idempotency:**
 
-In `GameEvent.handleEvent()`, there is a check for duplicates using an idempotent key (`setIdempotentKey(this.actionId)`). This prevents double‐executing the same action.
+In `RoundEvent.handleEvent()`, there is a check for duplicates using an idempotent key (`setIdempotentKey(this.actionId)`). This prevents double‐executing the same action.
 - **Session Ties:**
 
 Each WebSocket connection is tied to exactly one Session. When the connection closes, the session is cleaned up (closing its NATS subscription, etc.).

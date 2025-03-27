@@ -272,7 +272,7 @@ All the fields in the response are already described previously. Good to note th
 
 #### Notes on split hands
 - When a split is triggered, The player's hand is split into 2 hands. **The original hand will not exist in the state anymore**. It will be replaced by 2 split hands. 
-The `GameUpdate` will show the two new `playerHands`. So from the above you can see that the original hand's cards were: `{"value": 10,"suit": 2,"index": 9}`  & ` {"value": 10, "suit": 1, "index": 9},`
+The `RoundUpdate` will show the two new `playerHands`. So from the above you can see that the original hand's cards were: `{"value": 10,"suit": 2,"index": 9}`  & ` {"value": 10, "suit": 1, "index": 9},`
 - If the player splits hand `0`, the 2 new hand indices will be `0`, & `1` I.e. **hand `0` was replaced with one of the split hands**. This keeps on going the same way if **multiple splits** are allowed. Ex: if the user splits hand `1` then the 2 new hands will be `1` & `2`. Currently, the player can split only once  (2 total hands). After which the backend will no longer send `Split` in `nextActions`
 - The backend will always send back an update telling the frontend which hand index is to play next, **starting form highest hand index down to `0`** (playing right to left)
 

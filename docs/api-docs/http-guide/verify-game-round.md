@@ -46,7 +46,7 @@ The output json will be dependent on which game id was passed. But all will foll
 ```json:no-line-numbers
 {
     "action": "verify",
-    "type": "GameUpdate",
+    "type": "RoundUpdate",
     "data": {
        // this will contain the neccessary information to show the player like baccarat cards or limbo multiplier. 
        // following the same state scheam
