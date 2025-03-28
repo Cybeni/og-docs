@@ -6,7 +6,7 @@ Retrieve a player’s current balance on the platform
 ## Request
 
 - **Method:** GET 
-- **URL:** `https://<gateway-url>/v1/players/balance?game_session_id=<game_session_id>&game_id=<game_id>`
+- **URL:** `https://<gateway-url>/v1/player/balance?game_session_id=<game_session_id>&game_id=<game_id>`
 
 **Query Parameters**:
 |Parameter |	Type |	Description	| Required |
@@ -16,7 +16,7 @@ Retrieve a player’s current balance on the platform
 
 
 ```shell:no-line-numbers
-curl -X GET 'https://localhost:3000/v1/players/balance?game_session_id=80ebf563-43b2-4647-ba55-1d0842bd458d&game_id=og-blackjack'
+curl -X GET 'https://localhost:3000/v1/player/balance?game_session_id=80ebf563-43b2-4647-ba55-1d0842bd458d&game_id=og-blackjack'
 ```
 
 
