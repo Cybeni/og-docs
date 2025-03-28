@@ -72,6 +72,10 @@ let nav = [{
             {
                 text: "Get game configs",
                 link: '/api-docs/http-guide/game-configs.md'
+            },
+            {
+                text: "Get round details",
+                link: '/api-docs/http-guide/get-round-details.md'
             }]
         },
         {
