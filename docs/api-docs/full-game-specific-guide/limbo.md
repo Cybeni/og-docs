@@ -42,7 +42,7 @@ If betAmount is set to 0 (or ommitted) this is considered a round of "free play"
     "roundId": "<some-round-uuid>",
     "data": {
         "nextActions": [],
-        "generatedMultiplier": "2.11",
+        "generatedMultiplier": 2.11,
         "payout": "79.27",
         "autobetPayout": "0",
         "roundEnded": true
@@ -111,7 +111,7 @@ This is a feature where the player can decide to play N bets in a row automatica
         "nextActions": [ "NewBet", "EndAutobet" ],
         "betAmount": "1.2",
         "autobetCount": 1,
-        "generatedMultiplier": "1.23",
+        "generatedMultiplier": 1.23,
         "payout": "1.212",
         "autobetPayout": "1.212",
         "roundEnded": true
@@ -158,7 +158,7 @@ The client should wait for a response before triggering a new bet automatically:
         "nextActions": [ "NewBet", "EndAutobet" ],
         "betAmount": "1.2",
         "autobetCount": 2,
-        "generatedMultiplier": "1.36",
+        "generatedMultiplier": 1.36,
         "payout": "1.212",
         "autobetPayout": "2.424",
         "roundEnded": true
@@ -223,7 +223,7 @@ At any point the user might want to stop the Autobet mid-way. Frontend should se
         "onLoss": "0",
         "stopOnProfit": "0",
         "stopOnLoss": "0",
-        "generatedMultiplier": "61.03",
+        "generatedMultiplier": 61.03,
         "payout": "1.212",
         "autobetPayout": "1.212",
         "roundEnded": true,
