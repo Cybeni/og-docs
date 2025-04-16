@@ -97,6 +97,10 @@ let nav = [{
             {
                 text: "Baccarat",
                 link: "/api-docs/full-game-specific-guide/baccarat.md"
+            },
+            {
+                text: "Dice",
+                link: "/api-docs/full-game-specific-guide/dice.md"
             }]
         }]
 }]
