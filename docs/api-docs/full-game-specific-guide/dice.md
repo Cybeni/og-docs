@@ -19,7 +19,7 @@ Below is a all the possible actions available for Dice. A Dice game round always
     "data": {
         "betAmount": 52.5,
         "rollThreshold": 1.51,
-        "overOrUnder": "under"
+        "overOrUnder": "Under"
     }
 }
 ```
@@ -73,7 +73,7 @@ This is a feature where the player can decide to play N bets in a row automatica
 	"data": {
         "betAmount": 1.2,
         "rollThreshold": 2.12,
-        "overOrUnder": "under",
+        "overOrUnder": "Under",
         "autobetMax":0,
         "onWin": 0,
         "onLoss": 0,
@@ -226,7 +226,7 @@ At any point the user might want to stop the Autobet mid-way. Frontend should se
         "stopOnProfit": "0",
         "stopOnLoss": "0",
         "diceValue": 61.03,
-        "overOrUnder": "over",
+        "overOrUnder": "Over",
         "rollThreshold": 40.10,
         "payout": "1.212",
         "autobetPayout": "1.212",
