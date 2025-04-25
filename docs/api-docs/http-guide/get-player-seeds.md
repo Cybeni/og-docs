@@ -98,7 +98,12 @@ Empty response on success
 
 :::tip :white_check_mark:
 ```json:no-line-numbers
-{}
+{
+    "clientSeed": "ffjjdddf",
+    "serverSeedHashed": "5946a917e8812a3970275d241475c797a71bb1a839ddb9ac9f3d195fba10d860",
+    "totalBets": 0,
+    "nextServerSeedHashed": "a51f7e98f7d476d66e33efac13d4c8a91fba25b7236a873bc0d17d7701d135c2"
+}
 ```
 :::
 
