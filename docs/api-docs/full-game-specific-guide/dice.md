@@ -72,6 +72,7 @@ This is a feature where the player can decide to play N bets in a row automatica
     "eventId": "<some-event-uuid>",
 	"data": {
         "betAmount": 1.2,
+        "currency": "USD",
         "rollThreshold": 2.12,
         "overOrUnder": "Under",
         "autobetMax":0,
@@ -86,6 +87,7 @@ This is a feature where the player can decide to play N bets in a row automatica
 | Field Name | Type | Required | Default | Description|
 |----|---|---| ---- | -----|
 | `betAmount` | float | yes |   | The amount the user wants to bet for that hand | 
+| `currency` | string | yes | | The currency of the `betAmont` | 
 | `rollThreshold` | float | yes |  | This is the user selected roll value to play on |
 | `overOrUnder` | string | yes | | The user selects if he wants to bet over the `rollThreshold` or under| 
 | `autobetMax` | int | no |  0 | This is the total number of bets to place in a row. 0 means infinite |

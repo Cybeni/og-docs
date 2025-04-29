@@ -18,7 +18,8 @@ Below is a all the possible actions available for Limbo. A Limbo game round alwa
     "eventId": "<some-event-uuid>",
     "data": {
         "betAmount": 52.5,
-        "multiplier": 1.51
+        "multiplier": 1.51,
+        "currency": "USD"
     }
 }
 ```
@@ -30,6 +31,7 @@ Below is a all the possible actions available for Limbo. A Limbo game round alwa
 |----|---|---|----- |---|
 | `betAmount` | float | yes | 0 |  The amount the user wants to bet for that hand | 
 | `multiplier` | float | yes |  | This is the user selected multiplier to play on |
+| `currency` | string | yes | | The currency of the `betAmont` | 
 
 If betAmount is set to 0 (or ommitted) this is considered a round of "free play". This is only allowed provided that the bet limits configured via the engine's CMS have a "min bet limit" down to zero. Check out [how to retrieve the bet limits from CMS](/api-docs/http-guide/game-configs.md)
 
@@ -74,6 +76,7 @@ This is a feature where the player can decide to play N bets in a row automatica
     "eventId": "<some-event-uuid>",
 	"data": {
         "betAmount": 1.2,
+        "currency": "USD",
         "multiplier": 1.01,
         "autobetMax":0,
         "onWin": 0,
@@ -93,6 +96,7 @@ This is a feature where the player can decide to play N bets in a row automatica
 | `onLoss`| float | no | 0 | A percentage of the `betAmount` to add to the next `betAmount` if round ends up in a **loss**|
 | `stopOnProfit`| float | no | 0 | The amount of **total net profit** needed upon which the autobet would stop |
 | `stopOnLoss`| float | no | 0 | The amount of **net loss** needed upon which the autobet would stop |
+| `currency` | string | yes | | The currency of the `betAmont` | 
 
 
 :::info Note

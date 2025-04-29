@@ -21,7 +21,8 @@ Below is a all the possible actions available for Baccarat. A Baccarat game roun
             "bankerBetAmount": 0,
             "tieBetAmount": 0,
             "dragon7BetAmount": 0,
-            "pandaBetAmount":0
+            "pandaBetAmount":0,
+            "currency": "USD"
         }
     }
 ```
@@ -35,6 +36,7 @@ Below is a all the possible actions available for Baccarat. A Baccarat game roun
 |`tieBetAmount`| float| no | 0 | This is the bet amount when user wants to bet on the outcome being a tie |
 |`dragon7BetAmount`| float| no | 0 | This is the bet amount when user wants to bet on dragon 7 sidebet |
 |`pandaBetAmount`| float| no | 0 | This is the bet amount when user wants to bet on panda sidebet |
+| `currency` | string | yes | | The currency of the `betAmont` | 
 
 The above are all optional for the user to decide on what to bet on. If **ALL** of the above bets are set to 0 (or ommitted) this is considered a round of "free play". This is only allowed provided that the bet limits configured via the engine's CMS have a "min bet limit" down to zero. Check out [how to retrieve the bet limits from CMS](/api-docs/http-guide/game-configs.md)
 
@@ -124,7 +126,8 @@ This is a feature where the player can decide to play N bets in a row automatica
         "onWin": 0,
         "onLoss": 0,
         "stopOnProfit": 0,
-        "stopOnLoss": 0
+        "stopOnLoss": 0,
+        "currency": "USD"
 	}
 }
 ```
@@ -138,6 +141,7 @@ This is a feature where the player can decide to play N bets in a row automatica
 | `onLoss`| float | no | 0 | A percentage of the total bet amount to add to the next total bet amount if round ends up in a **loss**|
 | `stopOnProfit`| float | no | 0 | The amount of **total net profit** needed upon which the autobet would stop |
 | `stopOnLoss`| float | no | 0 | The amount of **net loss** needed upon which the autobet would stop |
+| `currency` | string | yes | | The currency of the `betAmont` | 
 
 
 :::info Note

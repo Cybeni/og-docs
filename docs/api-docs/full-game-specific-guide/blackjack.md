@@ -20,6 +20,7 @@ This is a list of all possible actions for blackjack
     "eventId": "<some-event-uuid>",
     "data": {
         "betAmount": 52.5,
+        "currency": "USD",
         "perfecPairsBetAmount": 35.5,
         "pokerBetAmount": 21.4
     }
@@ -31,6 +32,7 @@ This is a list of all possible actions for blackjack
 | Field Name | Type | Required | Description|
 |----|---|---|-----|
 | `betAmount` | float | yes | The amount the user wants to bet for that hand | 
+| `currency` | string | yes | | The currency of the `betAmont` | 
 | `perfecPairsBetAmount` | float | no | This is the bet amount for the perfect pairs side bet|
 | `pokerBetAmount` | float | no | This is the bet amount for the "21+1" side bet|
 
