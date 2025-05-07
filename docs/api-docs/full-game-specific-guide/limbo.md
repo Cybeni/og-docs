@@ -265,3 +265,15 @@ It is **important** to note that when `autobetMax` is set to 0 (infinite) the pl
 7. FE sends `EndAutobet` immediately
 8. User is presented with a clean new limbo game.
 :::
+
+
+## Error Codes
+:::note
+other global error codes are described in [websocket guide](/api-docs/websocket-guide.md)
+:::
+
+
+
+| Err Code | Received From | Description | 
+| -------- | ------------- | ----------- |
+| INVALID_MULTIPLIER | RoundState |  thrown if input multiplier is outside desired range|

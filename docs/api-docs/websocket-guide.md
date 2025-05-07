@@ -212,3 +212,20 @@ These are the error codes & warnings that can be sent by gateway where frontend 
 | GAME_ROUND_NOT_FOUND | RoundState | will be returned if there are no active games being played | Should enable the user to `Bet` as the only option to start a new round.
 | INSUFFICIENT_FUNDS | RoundAction | This can be returned if frontend allows the user to place a bet while player has no funds available | Show a message to user to fund the account|
 | CLIENT_NOT_AUTHENTICATED | Any | Will be sent if a request is made before player is authenticated | Send Authenticate event to gateway |
+| INVALID_NEXT_ACTION | roundUpdate | If `action` value is not part of `nextActions` list| |
+| INVALID_BET_AMOUNT | roundUpdate | Bet amount outside limits| |
+| BET_LIMIT_REACHED | roundUpdate |  going above limit thresholds during autobetting| |
+| INVALID_AUTOBET_MAX | roundUpdate |  | |
+| INVALID_STOP_ON_PROFIT | roundUpdate |  | |
+| INVALID_STOP_ON_LOSS | roundUpdate |  | |
+| INVALID_PAYLOAD_SCHEMA | roundUpdate | if input not a valid json| |
+| INVALID_EVENT_TYPE | roundUpdate | if eventType filed has an unexpected string| |
+| INVALID_ACTION | roundUpdate | action field missing (when doing a RoundAction eventType)| |
+| INVALID_GAME_ID | roundUpdate | bad game code| |
+| INVALID_CURRENCY | roundUpdate | missing or invalid currency| |
+| INVALID_EVENT_INPUTS | roundUpdate | any other error not caught with a custom code (should technically  |never occur)|
+
+
+:::note
+there can be other error codes specific to each game. see [full game schemas](/api-docs/full-game-specific-guide/blackjack.md) for these codes 
+:::
