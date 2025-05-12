@@ -188,7 +188,8 @@ All rounds always start with `Bet` (or `Autobet` see [Autobet](#Autobet)). This 
         "nextActions": ["Hit", "Stand"],
         // ... more game specific data
     },
-    "roundId": "36210984-c762-4af6-b40b-39054893749b"
+    "roundId": "36210984-c762-4af6-b40b-39054893749b",
+    "gameId" : "og-blackjack"
 }
 ```
 
