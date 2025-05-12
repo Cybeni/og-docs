@@ -229,3 +229,58 @@ These are the error codes & warnings that can be sent by gateway where frontend 
 :::note
 there can be other error codes specific to each game. see [full game schemas](/api-docs/full-game-specific-guide/blackjack.md) for these codes 
 :::
+
+
+## Other Possible payloads
+
+### Get Balance
+
+Once a websocket connection is established **and authenticated**, a client retrieve the users balance through a ws connection. This is the request payload to get the balance:
+```json
+{
+    "eventType": "GetBalance",
+    "gameId": "{{limbo-id}}",
+    "eventId": "balance-id-1dd",
+    "data": {
+        "currency": "USD"
+    }
+}
+```
+it follows the same input fields needed in the [HTTP GET /balance](/api-docs/http-guide/get-player-balance.md). The response payload will be:
+
+```json
+{
+    "eventType": "BalanceUpdate",
+    "eventId": "balance-id-1dd",
+    "data": {
+        "balance": 1224.840140402817,
+        "currency": "USD"
+    }
+}
+```
+
+:::note This could also respond with an `error` message if something goes wrong in retrieving the balance from casino platform
+:::
+
+
+### Get config
+The game configs could be changed in real-time through the CMS. These real-time updates trigger the [POST request webhook](/api-docs/http-guide/game-configs.md) which sends the new game configs to the gateway. The gateway then broadcasts these changes to **ALL clients** that are connected to the websocket server. Thus the clients have a passive, real time update of configs. The broadcasted message looks like:
+
+```json
+{
+    "eventType": "UpdateConfig",
+    "gameId": "og-limbo",
+    "data": {
+        "gameId": "og-limbo",
+        "maxBet": "5000.00",
+        "minBet": "0.00",
+        "customProps": {
+            "minTargetMultiplier": "1.01",
+            "maxTargetMultiplier": "1000000.0",
+            "minWinChance": "0.000099",
+            "maxWinChance": "98.01980198"
+        }
+    }
+}
+```
+It could be for any gameId that is currently available. So if a client is not interested in game's the user is not playing on that socket, that they could easily ignore/discard the incoming message.

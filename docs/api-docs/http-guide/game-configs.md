@@ -33,19 +33,15 @@ The `game_session_id` is required as a way to authenticate the request. This ens
 ```json:no-line-numbers
 {
     "id": 1,
-    "user_created": "5388c17d-3cf7-40a3-9463-52a418c11be7",
-    "date_created": "2025-02-10T14:48:07.299Z",
-    "user_updated": "5388c17d-3cf7-40a3-9463-52a418c11be7",
-    "date_updated": "2025-02-13T16:15:02.601Z",
-    "game_id": "og-blackjack",
+    "gameId": "og-blackjack",
     "active": true,
-    "max_bet": "5000.00000",
-    "min_bet": "0.00000",
-    "custom_props": {
-        "perfect_pairs_max_bet": "5000.0",
-        "perfect_pairs_min_bet": "0.0",
-        "poker_max_bet": "5000.0",
-        "poker_min_bet": "0.0"
+    "maxBet": "5000.00000",
+    "minBet": "0.00000",
+    "customProps": {
+        "perfectPairsMaxBet": "5000.0",
+        "perfectPairsMinBet": "0.0",
+        "pokerMaxBet": "5000.0",
+        "pokerMinBet": "0.0"
     }
 }
 ```
@@ -103,6 +99,9 @@ curl -X POST 'http://localhost:3000/v1/games/configs' \
 
 :::info Important
 - Regarding the schema in the `data` payload please look at how the data is stored in CMS (directus). The schema follows exactly what directus CMS uses in its SDK as output
+- So to recap:
+    - the GET will retrieve data in camel case for schema consistency across project
+    - the POST sends data with underscores and gateway internally converts to camel case. (as this data is requested through directus API)
 - Note that this endpoint is rarely ever needed to be called manually or from any other service. With Directus Flows, this is setup as a webhook when the CMS data changes. 
 :::
 
