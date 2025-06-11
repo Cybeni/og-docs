@@ -130,9 +130,9 @@ For manual betting, `currentPicks` is ALWAYS an array of **length 1**. The reaso
     "gameId": "og-mines"
 }
 ```
-The response just gives back the profit/multiplier values. The Client already knows the position as it was part of the input payload
 
-**Same as with the `Bet` response, engine will respond with current Profit (if user cashes out) & next profit if user picks a new tile**
+- Same as with the `Bet` response, engine will respond with **current Profit** (if user cashes out) & **next profit** if user picks a new tile
+- No other information is needed other than the next possible actions, as the frontend already knows which tile the user picked and can expose a dimond there accordingly.
 
 
 **Response: (if tile picked is :bomb:)**
@@ -163,10 +163,10 @@ The response just gives back the profit/multiplier values. The Client already kn
 }
 ```
 
-The engine exposes **ALL** the bombs including the one the user **picked** as round has ended in a loss. By default the rest of the tiles are the diamonds.
+As the round ends (with a loss) when a bomb is picked, the engine exposes **ALL** the bombs including the one the user **picked**. By default the rest of the tiles are the diamonds.
 
 :::info 
-The Frontend can distinguish between a picked and unpicked bomb visually as the information is in the response payload. While for picked diamonds, the frontend can keep track of that in its state as the game progresses.
+The Frontend can distinguish visually between a **picked** and **unpicked** bomb based on the `picked` field.
 :::
 
 ## CashOut
@@ -219,7 +219,8 @@ No `data` required as this notifies the engine that user ended the round
 }
 ```
 
-:::info Note The engine exposes the full grid once the user decided to cashout. I.e. engine returns the location of the bombs (the rest of the tiles are by default diamonds):::
+:::info Note The engine exposes the full grid once the user decides to cashout. I.e. engine returns the location of the bombs (the rest of the tiles are by default diamonds)
+:::
 
 | Field Name | Type | Required | Default |  Description|
 |----|---|---|----- |---|
@@ -230,7 +231,9 @@ No `data` required as this notifies the engine that user ended the round
 | `payout` | int | yes | | The total amount including the bet amount to be given to player |
 
 
-:::note Both `bomb` and `diamond` have the exact same `tile` schema:::
+
+:::note Both `bomb` and `diamond` have the exact same `tile` schema.
+:::
 
 
 
