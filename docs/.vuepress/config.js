@@ -101,7 +101,12 @@ let nav = [{
             {
                 text: "Dice",
                 link: "/api-docs/full-game-specific-guide/dice.md"
-            }]
+            },
+            {
+                text: "Mines",
+                link: "/api-docs/full-game-specific-guide/mines.md"
+            }
+        ]
         }]
 }]
 
