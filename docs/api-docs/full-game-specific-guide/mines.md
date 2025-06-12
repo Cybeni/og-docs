@@ -237,3 +237,155 @@ No `data` required as this notifies the engine that user ended the round
 
 
 
+
+
+## Autobet
+
+This is a feature where the player can decide to play N bets in a row automatically. 
+
+#### Request `Action`:
+```json:no-line-numbers
+{
+    "eventType": "RoundAction",
+    "action": "Autobet",
+    "gameId": "og-mines",
+    "eventId": "autobet-id-1",
+    "data": {
+        "betAmount": 0.001,
+        "maxBombs": 3,
+        "maxTiles": 25,
+        "currentPicks": [10, 12],
+        "onWin": 0,
+        "onLoss": 0,
+        "stopOnProfit": 0,
+        "stopOnLoss": 0,
+        "autobetMax": 3
+    }
+}
+```
+
+| Field Name | Type | Required | Default | Description|
+|----|---|---| ---- | -----|
+| `betAmount` | float | yes |   | The amount the user wants to bet for that hand | 
+| `multiplier` | float | yes |  | This is the user selected multiplier to play on
+| `autobetMax` | int | no |  0 | This is the total number of bets to place in a row. 0 means infinite |
+| `onWin`| float | no | 0 | A percentage of the `betAmount` to add to the next `betAmount` if round ends up in a **win** |
+| `onLoss`| float | no | 0 | A percentage of the `betAmount` to add to the next `betAmount` if round ends up in a **loss**|
+| `stopOnProfit`| float | no | 0 | The amount of **total net profit** needed upon which the autobet would stop |
+| `stopOnLoss`| float | no | 0 | The amount of **net loss** needed upon which the autobet would stop |
+
+
+:::info Note
+- That if `stopOnProfit` or `stopOnLoss` are either set to 0 or not included in the event message, that means these features are not used in the autobet
+- Same goes for `onWin` & `onLoss`. 0 value (or ommitted) means the **bet resets** to the originl value with each bet in autobetting
+:::
+
+
+#### Response `Update` when hitting a :bomb:
+
+```json:no-line-numbers
+{
+    "action": "Autobet",
+    "eventType": "RoundUpdate",
+    "eventId": "autobet-id-1",
+    "data": {
+        "nextActions": [
+            "NewBet",
+            "EndAutobet"
+        ],
+        "bombs": [
+            {
+                "Picked": true,
+                "Location": 10
+            },
+            {
+                "Picked": false,
+                "Location": 15
+            },
+            {
+                "Picked": true,
+                "Location": 10
+            }
+        ],
+         "diamonds": [
+            {
+                "picked": true,
+                "location": 12
+            }
+        ],
+        "payout": "0",
+        "outcome": "loss",
+        "roundEnded": true
+    },
+    "roundId": "01ecdebb-f59c-44e4-baaf-440b7f5cfbc7",
+    "balance": 90.61266688468878,
+    "gameId": "og-mines"
+}
+```
+| Field Name | Type  | Description|
+|----|---|-----|
+| `autobetCount` | int | A counter incremented on each bet placed in `Autobet` | 
+| `autobetPayout` | float | This  tallies up the total payout given to player for all the bets placed|
+| `roundEnded` | int | This is the total number of bets to place in a row. 0 means infinite |
+
+:::info Note:
+- The bet immediately settles in a win or a loss.
+- The engine gives out all the locations of the bombs and shows which ones were picked
+- The rest of the tiles are automatically diamonds by default. The only diamonds in the output results will be the ones picked during the autobet
+:::
+
+So by triggering `Autobet`
+- The engine starts the **first bet**
+- `autobetCount` is incremented by 1
+- The first round ends showing the payout and the generated multiplier.
+
+
+**response `update`: user winning the bet**
+
+```json:no-line-number
+{
+    "action": "NewBet",
+    "eventType": "RoundUpdate",
+    "eventId": "newbet-1d4dddddd",
+    "data": {
+        "nextActions": [
+            "NewBet",
+            "EndAutobet"
+        ],
+        "bombs": [
+            {
+                "picked": false,
+                "location": 4
+            },
+            {
+                "picked": false,
+                "location": 11
+            },
+            {
+                "picked": false,
+                "location": 14
+            }
+        ],
+        "diamonds": [
+            {
+                "picked": true,
+                "location": 10
+            },
+            {
+                "picked": true,
+                "location": 12
+            }
+        ],
+        "payout": "0.00129",
+        "outcome": "win",
+        "nextBetAmount": "0.001",
+        "autobetPayout": "0.00645",
+        "autobetAmount": "0.007",
+        "autobetCount": "7",
+        "roundEnded": true
+    },
+    "roundId": "d9dacab8-7d2b-4ff8-a2ec-373e05ffda88",
+    "balance": 90.60798688468878,
+    "gameId": "og-mines"
+}
+```
