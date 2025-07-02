@@ -1,7 +1,7 @@
 # Get Player Seeds
 
 :::info Important
-Seeds are generated at the player level, meaning the same server seed and client seed are used across all games for a single player. For more information on seeds see [how the random number generator works](../../rng/README.md)
+Seeds are generated at the player level, meaning the same server seed and client seed are used across all games for a single player. For more information on seeds see [how the random number generator works](../../full-documentation/rng.md)
 :::
 ## Request 
 

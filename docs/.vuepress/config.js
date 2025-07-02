@@ -53,10 +53,7 @@ let nav = [{
         },
         {
             text: 'HTTP Guide',
-            children: [{
-                text: "Introduction",
-                link: '/api-docs/http-guide/introduction.md'
-            },
+            children: [
             {
                 text: "Get player balance",
                 link: '/api-docs/http-guide/get-player-balance.md'

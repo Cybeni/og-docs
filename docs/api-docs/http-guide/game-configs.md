@@ -3,7 +3,7 @@ next: "/api-docs/websocket-guide.md"
 ---
 # Retrieve Game Configs
 
-Each game has its own set of configurations which are hosted on the game CMS (details on CMS [here](../game-cms.md)). Most important set of configs for client integrations are the maximum and minimum bet limits imposed on the games.
+Each game has its own set of configurations which are hosted on the game CMS (details on CMS [here](../../full-documentation/game-cms.md)). Most important set of configs for client integrations are the maximum and minimum bet limits imposed on the games.
 
 
 # Request:
